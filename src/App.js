@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import StartPage from './pages/StartPage';
 import ColorSelection from './pages/ColorSelection';
 import TopSelection from './pages/TopSelection';
@@ -11,15 +10,15 @@ import FinishPage from './pages/FinishPage';
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/" component={StartPage} />
-        <Route path="/color-selection" component={ColorSelection} />
-        <Route path="/top-selection" component={TopSelection} />
-        <Route path="/bottom-selection" component={BottomSelection} />
-        <Route path="/shoes-selection" component={ShoesSelection} />
-        <Route path="/accessory-selection" component={AccessorySelection} />
-        <Route path="/finish" component={FinishPage} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<StartPage />} />
+        <Route path="/color-selection" element={<ColorSelection />} />
+        <Route path="/top-selection" element={<TopSelection />} />
+        <Route path="/bottom-selection" element={<BottomSelection />} />
+        <Route path="/shoes-selection" element={<ShoesSelection />} />
+        <Route path="/accessory-selection" element={<AccessorySelection />} />
+        <Route path="/finish" element={<FinishPage />} />
+      </Routes>
     </Router>
   );
 }
