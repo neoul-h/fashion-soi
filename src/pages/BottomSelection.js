@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { GlobalLayout } from '../GlobalLayout'; 
 
-const bottoms = ['pants1.png', 'pants2.png', 'pants3.png']; // 하의 이미지 예시
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-`;
+const bottoms = ['pants1.png', 'pants2.png', 'pants3.png']; 
 
 const BottomGrid = styled.div`
   display: grid;
@@ -23,6 +15,8 @@ const BottomImage = styled.img`
   width: 100px;
   height: 150px;
   cursor: pointer;
+  border: ${(props) => (props.isSelected ? '5px solid #007bff' : '2px solid #ccc')};
+  box-shadow: ${(props) => (props.isSelected ? '0px 0px 10px rgba(0, 123, 255, 0.5)' : 'none')};
 `;
 
 const NextButton = styled(Link)`
@@ -38,21 +32,40 @@ const NextButton = styled(Link)`
   }
 `;
 
+const BackButton = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #cc0000;
+  }
+`;
+
 function BottomSelection() {
-  const { state } = useLocation();
-  const { selectedColor, selectedTop } = state || {};
+  const navigate = useNavigate();
   const [selectedBottom, setSelectedBottom] = useState(null);
 
   return (
-    <Container>
+    <GlobalLayout character={<img src="/assets/character.png" alt="Character" />}>
       <h1>Select a Bottom</h1>
       <BottomGrid>
         {bottoms.map((bottom) => (
-          <BottomImage key={bottom} src={`/assets/${bottom}`} alt={bottom} onClick={() => setSelectedBottom(bottom)} />
+          <BottomImage
+            key={bottom}
+            src={`/assets/${bottom}`}
+            alt={bottom}
+            isSelected={selectedBottom === bottom}
+            onClick={() => setSelectedBottom(bottom)}
+          />
         ))}
       </BottomGrid>
-      <NextButton to={{ pathname: "/shoes-selection", state: { selectedColor, selectedTop, selectedBottom } }}>Next</NextButton>
-    </Container>
+      <NextButton to="/shoes-selection">Next</NextButton>
+      <BackButton onClick={() => navigate(-1)}>Back</BackButton>
+    </GlobalLayout>
   );
 }
 
