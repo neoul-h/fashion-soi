@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { GlobalLayout } from '../GlobalLayout'; // GlobalLayout 사용
 
-const tops = ['shirt1.png', 'shirt2.png', 'shirt3.png']; // 예시 이미지
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-`;
+const tops = ['shirt1.png', 'shirt2.png', 'shirt3.png']; // 상의 이미지 예시
 
 const TopGrid = styled.div`
   display: grid;
@@ -23,6 +15,8 @@ const TopImage = styled.img`
   width: 100px;
   height: 150px;
   cursor: pointer;
+  border: ${(props) => (props.isSelected ? '5px solid #007bff' : '2px solid #ccc')};
+  box-shadow: ${(props) => (props.isSelected ? '0px 0px 10px rgba(0, 123, 255, 0.5)' : 'none')};
 `;
 
 const NextButton = styled(Link)`
@@ -38,21 +32,40 @@ const NextButton = styled(Link)`
   }
 `;
 
+const BackButton = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #cc0000;
+  }
+`;
+
 function TopSelection() {
-  const { state } = useLocation();
-  const { selectedColor } = state || {};
+  const navigate = useNavigate();
   const [selectedTop, setSelectedTop] = useState(null);
 
   return (
-    <Container>
+    <GlobalLayout character={<img src="/assets/character.png" alt="Character" />}>
       <h1>Select a Top</h1>
       <TopGrid>
         {tops.map((top) => (
-          <TopImage key={top} src={`/assets/${top}`} alt={top} onClick={() => setSelectedTop(top)} />
+          <TopImage
+            key={top}
+            src={`/assets/${top}`}
+            alt={top}
+            isSelected={selectedTop === top}
+            onClick={() => setSelectedTop(top)}
+          />
         ))}
       </TopGrid>
-      <NextButton to={{ pathname: "/bottom-selection", state: { selectedColor, selectedTop } }}>Next</NextButton>
-    </Container>
+      <NextButton to="/bottom-selection">Next</NextButton>
+      <BackButton onClick={() => navigate(-1)}>Back</BackButton>
+    </GlobalLayout>
   );
 }
 
