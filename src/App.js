@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import StartPage from './pages/StartPage';
+import ColorSelection from './pages/ColorSelection';
+import TopSelection from './pages/TopSelection';
+import BottomSelection from './pages/BottomSelection';
+import ShoesSelection from './pages/ShoesSelection';
+import AccessorySelection from './pages/AccessorySelection';
+import FinishPage from './pages/FinishPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={StartPage} />
+        <Route path="/color-selection" component={ColorSelection} />
+        <Route path="/top-selection" component={TopSelection} />
+        <Route path="/bottom-selection" component={BottomSelection} />
+        <Route path="/shoes-selection" component={ShoesSelection} />
+        <Route path="/accessory-selection" component={AccessorySelection} />
+        <Route path="/finish" component={FinishPage} />
+      </Switch>
+    </Router>
   );
 }
 
