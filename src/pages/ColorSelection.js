@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { GlobalLayout } from '../GlobalLayout'; 
 
-const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFA1', '#A133FF', '#FFA133', '#33A1FF', '#A1FF33', '#FF5733'];
+const colors = [
+  { color: '#000000', label: '검정' },
+  { color: '#00D8FF', label: '하늘' },
+  { color: '#FF0000', label: '빨강' },
+  { color: '#FFB400', label: '노랑' },
+  { color: '#0100FF', label: '파랑' },
+  { color: '#FF5E00', label: '주황' },
+  { color: '#FFFFFF', label: '하양' },
+  { color: '#1DDB16', label: '초록' },
+  { color: '#FF00DD', label: '분홍' },
+  { color: '#5F00FF', label: '보라' },
+];
 
 const ColorGrid = styled.div`
   display: grid;
@@ -20,51 +31,28 @@ const ColorBox = styled.div`
   box-shadow: ${(props) => (props.isSelected ? '0px 0px 10px rgba(0, 123, 255, 0.5)' : 'none')};
 `;
 
-const NextButton = styled(Link)`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const BackButton = styled.button`
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #ff4d4d;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #cc0000;
-  }
-`;
-
 function ColorSelection() {
   const navigate = useNavigate();
   const [selectedColor, setSelectedColor] = useState(null);
 
   return (
-    <GlobalLayout character={<img src="/assets/character.png" alt="Character" />}>
+    <GlobalLayout
+      character={<img src="/assets/character.png" alt="Character" />}
+      onBack={() => navigate(-1)}
+      onNext={() => navigate('/top-selection')}
+    >
       <h1>Select a Color</h1>
       <ColorGrid>
-        {colors.map((color) => (
+        {colors.map(({ color, label }) => (
           <ColorBox
             key={color}
             color={color}
             isSelected={selectedColor === color}
             onClick={() => setSelectedColor(color)}
+            title={label}  // 색상 이름 표시
           />
         ))}
       </ColorGrid>
-      <NextButton to="/top-selection">Next</NextButton>
-      <BackButton onClick={() => navigate(-1)}>Back</BackButton>
     </GlobalLayout>
   );
 }
